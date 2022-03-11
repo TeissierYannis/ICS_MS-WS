@@ -6,7 +6,7 @@ configure
 ```
 set interfaces ethernet eth0 address dhcp
 set interfaces ethernet eth1 address 172.31.1.254/24
-set interfaces ethernet eth1 address 172.31.2.254/24
+set interfaces ethernet eth2 address 172.31.2.254/24
 ```
 ```
 set nat source rule 100 outbound-interface eth0
