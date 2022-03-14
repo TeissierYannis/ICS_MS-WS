@@ -5,17 +5,11 @@ New-LocalGroup -Name "GL_ESN"
 Add-LocalGroupMember -Group "GL_ESN" -Member "Jean Vien", "Jean Peuplus"
 
 # Create groups group
-New-ADOrganizationalUnit -Name 'Groups' -Path "DC=ESN,DC=dom"
-$filter = 'Name -like "*Groups*"'
-Get-ADOrganizationalUnit -Filter $filter | Set-ADObject -ProtectedFromAccidentalDeletion:$false -PassThru
+New-ADOrganizationalUnit -Name 'Groups' -Path "DC=ESN,DC=dom" -ProtectedFromAccidentalDeletion:$false
 # Create global group
-New-ADOrganizationalUnit -Name 'Global' -Path "OU=Groups,DC=ESN,DC=dom"
-$filter = 'Name -like "*Global*"'
-Get-ADOrganizationalUnit -Filter $filter | Set-ADObject -ProtectedFromAccidentalDeletion:$false -PassThru
+New-ADOrganizationalUnit -Name 'Global' -Path "OU=Groups,DC=ESN,DC=dom" -ProtectedFromAccidentalDeletion:$false
 # Create local group
-New-ADOrganizationalUnit -Name 'Local' -Path "OU=Groups,DC=ESN,DC=dom"
-$filter = 'Name -like "*Local*"'
-Get-ADOrganizationalUnit -Filter $filter | Set-ADObject -ProtectedFromAccidentalDeletion:$false -PassThru
+New-ADOrganizationalUnit -Name 'Local' -Path "OU=Groups,DC=ESN,DC=dom" -ProtectedFromAccidentalDeletion:$false
 
 $GG = "Responsables:title|Responsable", "Employe:title|Responsable,Employe", "Informatique:Department|Informatique", "Comptabilite:Deparment|Comptabilite", "Direction:Department|Direction", "Marketing:Department|Marketing", "Production:Department|Production"
 $GL = "DL_Total_Ressources:Responsables,Direction", "DL_Lecture_Ressources:Informatique,Comptabilite,Marketing", "DL_Refuser_Ressources:Production"
