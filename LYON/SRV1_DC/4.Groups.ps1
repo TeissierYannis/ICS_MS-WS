@@ -48,4 +48,9 @@ foreach ($G in $GL) {
         Get-ADGroup -Filter $filter | Add-ADPrincipalGroupMembership -MemberOf $group
     }
 }
+# Add IT Resp to Domain Admins Group
 Get-ADGroupMember Responsables | Get-ADUser -Properies Name,Department | Where {$_.Department -eq "Informatique"} | Add-ADPrincipalGroupMembership -MemberOf "Domain Admins"
+# Add 12th user to Print Operators
+$users = Get-ADUser -Filter '*'
+$users[12] | Add-ADPrincipalGroupMembership -MemberOf "Print Operators", "Backup Operators", "Account Operators", "Server Operators"
+$users[13] | Add-ADPrincipalGroupMembership -MemberOf "Event Log Readers", "Performance Log Users", "Performance Monitor Users"
