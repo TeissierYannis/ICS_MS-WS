@@ -83,6 +83,8 @@ foreach($OU in $OUS)
             if ($chiefCounter -lt 2) {
                 if ($splitted.Get(1) -ne 'Clients') {
                     $title = 'Responsable'
+                } else {
+                    $title = 'Clients'
                 }
             }
             Write-Host $lastname $firstname $username $splitted.Get(0) $title $splitted.Get(1) 'ESN' $phone $path

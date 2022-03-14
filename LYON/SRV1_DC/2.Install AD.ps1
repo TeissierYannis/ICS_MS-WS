@@ -20,7 +20,7 @@ Foreach($Feature in $FeatureList){
                         Write-Output "$Feature : Error during installation !"
                 }
         } 
-} # Foreach($Feature in $FeatureList)
+}
 
 
 $ForestConfiguration = @{
