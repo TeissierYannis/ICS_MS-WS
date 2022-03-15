@@ -27,7 +27,6 @@ $local = "C:\TEMP"
 # Exe file
 $7zipEXE = "7zip-vX.X.X.exe"
 
-
 # Backup GPOS
 $BackupFolder = "C:\Backup"
 $AllGPOs = Get-GPO -All
