@@ -18,3 +18,29 @@ Set-ADDefaultDomainPasswordPolicy -Identity ESN.dom -ComplexityEnabled $True -Ma
 # Set Password Policy for IT (PSO)
 New-ADFineGrainedPasswordPolicy -Name "ITPasswordPolicy" -DisplayName "Specifics rules for IT teams password's" -ComplexityEnabled $true -Description "Specifics rules for IT teams password's" -MaxPasswordAge 30:00:00:00 -MinPasswordAge 29:00:00:00 -MinPasswordLength 9 -PasswordHistoryCount 12 -Precedence 100
 Add-ADFineGrainedPasswordPolicySubject ITPasswordPolicy -Subjects "Informatique"
+
+# Install 7zip from file
+# Shared folder on network
+$share = "\\shared\apps"
+# Temp folder on local
+$local = "C:\TEMP"
+# Exe file
+$7zipEXE = "7zip-vX.X.X.exe"
+
+
+# Backup GPOS
+$BackupFolder = "C:\Backup"
+$AllGPOs = Get-GPO -All
+foreach ($GPO in $AllGPOs) {
+        $pattern = '[^a-zA-Z0-9\s]'
+        $DisplayName = $GPO.DisplayName -replace " " ,"_"
+        $ModificationTime = $GPO.ModificationTime -replace '[/:]','_'
+        $ModificationTime = $ModificationTime -replace ' ','_'
+        $BackupDestination = $BackupFolder+'\' + $DisplayName + '\' + $ModificationTime + '\'
+        if (-Not (Test-Path $BackupDestination)) {
+            New-Item -Path $BackupDestination -ItemType directory | Out-Null
+            Backup-GPO -Name $GPO.DisplayName -Path $BackupDestination
+        }
+    }
+
+
