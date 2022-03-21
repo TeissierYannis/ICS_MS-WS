@@ -6,6 +6,7 @@ Set-ADDomain (Get-ADDomain).distinguishedname -Replace @{"ms-ds-MachineAccountQu
 
 # One subnet is not declared 172.31.1.1
 New-ADReplicationSubnet -Name "172.31.1.0/24"
+New-ADReplicationSubnet -Name "172.31.2.0/24"
 
 # Adminstrator flag this account is sensitive and cannot be delegated
 Get-ADGroupMember -Identity "Domain Admins" | Set-ADUser -AccountNotDelegated $true
