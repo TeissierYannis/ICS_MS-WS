@@ -12,3 +12,22 @@ Set-ADUser -Identity "Administrator" -AccountNotDelegated $true
 
 #Recyble bin
 Enable-ADOptionalFeature -Identity 'Recycle Bin Feature' -Scope ForestOrConfigurationSet -Target ESN.dom
+
+# Spooler is remotly accessible (CVE Details (RCE) : https://www.ghacks.net/2021/07/03/workaround-for-the-windows-print-spooler-remote-code-execution-vulnerability/)
+Stop-Service -Name Spooler -Force
+Set-Service -Name Spooler -StartupType Disabled
+
+# Backup AD
+Install-WindowsFeature Windows-Server-Backup
+
+$disks = Get-WBDisk
+$backupPolicy = New-WBPolicy
+Add-WBSystemState -Policy $backupPolicy
+Add-WBBareMetalRecovery -Policy $backupPolicy
+# TAke the second disk
+$backupTarget = New-WBBackupTarget -Disk $disks[1]
+Add-WBBackupTarget -Policy $backupPolicy -Target $backupTarget
+Set-WBSchedule -Policy $backupPolicy -Schedule 09:00
+Set
+Set-WBPolicy -force -policy $backupPolicy
+
