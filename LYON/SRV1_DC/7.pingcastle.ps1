@@ -8,7 +8,7 @@ Set-ADDomain (Get-ADDomain).distinguishedname -Replace @{"ms-ds-MachineAccountQu
 New-ADReplicationSubnet -Name "172.31.1.0/24"
 
 # Adminstrator flag this account is sensitive and cannot be delegated
-Set-ADUser -Identity "Administrator" -AccountNotDelegated $true
+Get-ADGroupMember -Identity "Domain Admins" | Set-ADUser -AccountNotDelegated $true
 
 #Recyble bin
 Enable-ADOptionalFeature -Identity 'Recycle Bin Feature' -Scope ForestOrConfigurationSet -Target ESN.dom
