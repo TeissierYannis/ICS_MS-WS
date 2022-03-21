@@ -13,7 +13,7 @@ Get-ADGroupMember -Identity "Domain Admins" | Set-ADUser -AccountNotDelegated $t
 #Recyble bin
 Enable-ADOptionalFeature -Identity 'Recycle Bin Feature' -Scope ForestOrConfigurationSet -Target ESN.dom
 
-# Spooler is remotly accessible (CVE Details (RCE) : https://www.ghacks.net/2021/07/03/workaround-for-the-windows-print-spooler-remote-code-execution-vulnerability/)
+# Spooler is remotly accessible (CVE Details : CVE-2021-34527 (RCE) : https://www.ghacks.net/2021/07/03/workaround-for-the-windows-print-spooler-remote-code-execution-vulnerability/)
 Stop-Service -Name Spooler -Force
 Set-Service -Name Spooler -StartupType Disabled
 
@@ -28,6 +28,9 @@ Add-WBBareMetalRecovery -Policy $backupPolicy
 $backupTarget = New-WBBackupTarget -Disk $disks[1]
 Add-WBBackupTarget -Policy $backupPolicy -Target $backupTarget
 Set-WBSchedule -Policy $backupPolicy -Schedule 09:00
-Set
 Set-WBPolicy -force -policy $backupPolicy
+
+# Move admins to protected users
+$users = Get-ADGroupMember "Domain Admins"
+Add-ADGroupMember -Identity "Protected Users" -Members $users
 
